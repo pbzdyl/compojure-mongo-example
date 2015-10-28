@@ -3,17 +3,14 @@
     [clj-api.mongo :refer [get-all-people get-person save-person]]
     [compojure.api.sweet :refer :all]
     [ring.util.http-response :refer :all]
-    [schema.core :as s]
-    [ring.swagger.json-schema :as json-schema])
-  (:import (org.bson.types ObjectId)))
+    [schema.core :as s]))
 
-(defmethod json-schema/json-type ObjectId [_] {:type "string"})
 
 (s/defschema Message {:message String})
 
-(s/defschema Person {:_id ObjectId :name String})
-
 (s/defschema NewPerson {:name String})
+
+(s/defschema Person (assoc NewPerson :id String))
 
 (defapi app
   (swagger-ui)
