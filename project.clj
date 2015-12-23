@@ -4,6 +4,11 @@
                  [clj-time "0.9.0"] ; required due to bug in lein-ring
                  [metosin/compojure-api "0.22.0"]
                  [com.novemberain/monger "3.0.1"]
+                 [korma "0.4.0"]
+                 [yesql "0.5.1"]
+                 [org.postgresql/postgresql "9.4-1206-jdbc42"]
+                 [com.h2database/h2 "1.4.190"]
+                 [org.hsqldb/hsqldb "2.3.3"]
                  [ring/ring-json "0.4.0"]]
   :ring {:handler clj-api.handler/app}
   :uberjar-name "server.jar"

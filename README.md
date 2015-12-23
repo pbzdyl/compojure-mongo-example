@@ -1,6 +1,26 @@
 # clj-api
 
-FIXME
+## DB setup
+
+### MongoDB
+
+`brew install mongodb`
+and start it.
+
+### PostgreSQL
+
+`brew install postgresql`
+and start it.
+
+Create DB:
+
+`createdb -Eutf8 docusign-contexts`
+
+## Config
+
+Change import at the top in  `src/clj_api/handler.clj` to choose persistence implementation.
+
+Change `db-choice` in `src/clj_api/db_config` to choose between H2, HSQLDB and PostgreSQL.
 
 ## Usage
 
@@ -25,4 +45,4 @@ java -jar target/server.jar
 
 ## License
 
-Copyright ©  FIXME
+Copyright © Piotrek Bzdyl

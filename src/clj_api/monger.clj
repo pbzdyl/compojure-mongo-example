@@ -1,4 +1,4 @@
-(ns clj-api.mongo
+(ns clj-api.monger
   (:require [monger.core :as mg]
             [monger.collection :as mc]
             [monger.json])
@@ -8,7 +8,7 @@
 
 (def db (mg/get-db conn "test"))
 
-(def people-coll "people")
+(def docusign-contexts-coll "docusign-contexts")
 
 (defn objectId->str [e]
   (if-let [objectId (:_id e)]
@@ -17,15 +17,15 @@
 
 (def objectIds->str (partial map objectId->str))
 
-(defn get-all-people []
-  (-> (mc/find-maps db people-coll)
+(defn list-docusign-contexts []
+  (-> (mc/find-maps db docusign-contexts-coll)
       objectIds->str))
 
-(defn get-person [id]
-  (-> (mc/find-map-by-id db people-coll (ObjectId. id))
+(defn get-docusign-context [id]
+  (-> (mc/find-map-by-id db docusign-contexts-coll (ObjectId. id))
       objectId->str))
 
-(defn save-person [person]
-  (-> (mc/insert-and-return db people-coll (assoc person :_id (ObjectId.)))
+(defn create-docusign-context [docusign-context]
+  (-> (mc/insert-and-return db docusign-contexts-coll (assoc docusign-context :_id (ObjectId.)))
       objectId->str))
 

@@ -1,6 +1,6 @@
 (ns clj-api.handler-minimal
   (:require
-    [clj-api.mongo :refer [get-all-people get-person save-person]]
+    [clj-api.monger :refer [list-docusign-contexts get-docusign-context create-docusign-context]]
     [compojure.core :refer :all]
     [compojure.route :as route]
     [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
@@ -8,10 +8,10 @@
 
 (defroutes app-routes
   (GET "/" [] "Welcome")
-  (context "/people" []
-    (GET "/" [] (response (get-all-people)))
-    (GET "/:id" [id] (response (get-person id)))
-    (POST "/" {person :body} (response (save-person person)))
+  (context "/docusign-contexts" []
+    (GET "/" [] (response (list-docusign-contexts)))
+    (GET "/:id" [id] (response (get-docusign-context id)))
+    (POST "/" {docusign-context :body} (response (create-docusign-context docusign-context)))
     (route/not-found "Page not found")))
 
 (def app

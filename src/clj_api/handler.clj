@@ -1,6 +1,11 @@
 (ns clj-api.handler
   (:require
-    [clj-api.mongo :refer [get-all-people get-person save-person]]
+    ; change clj-api.* to one of
+    ;   clj-api.monger
+    ;   clj-api.korma
+    ;   clj-api.yesql
+    ; for different persistence implementations
+    [clj-api.yesql :refer [list-docusign-contexts get-docusign-context create-docusign-context]]
     [compojure.api.sweet :refer :all]
     [ring.util.http-response :refer :all]
     [schema.core :as s]))
@@ -8,9 +13,9 @@
 
 (s/defschema Message {:message String})
 
-(s/defschema NewPerson {:name String})
+(s/defschema NewDocusignContext {:candidateId String :offerId String})
 
-(s/defschema Person (assoc NewPerson :id String))
+(s/defschema DocusignContext (assoc NewDocusignContext :id String))
 
 (defapi app
   (swagger-ui)
@@ -27,23 +32,23 @@
       :summary "say hello"
       (ok {:message (str "Terve, " name)})))
 
-  (context* "/people" []
-    :tags ["People"]
+  (context* "/docusign-contexts" []
+    :tags ["Docusign Contexts"]
 
     (GET* "/" []
-      :return [Person]
-      :summary "List all people"
-      (ok (get-all-people)))
+      :return [DocusignContext]
+      :summary "List all Docusign Contexts"
+      (ok (list-docusign-contexts)))
 
     (GET* "/:id" [id]
-      :return Person
-      :summary "Return person with provided id"
-      (if-let [person (get-person id)]
-        (ok person)
-        (not-found (str "No person with id " id))))
+      :return DocusignContext
+      :summary "Return Docusign Context with provided id"
+      (if-let [docusign-context (get-docusign-context id)]
+        (ok docusign-context)
+        (not-found (str "No Docusign Context with id " id))))
 
     (POST* "/" []
-       :body [person NewPerson]
-       :return Person
-       :summary "Create a person record"
-       (ok (save-person person)))))
+       :body [docusign-context NewDocusignContext]
+       :return DocusignContext
+       :summary "Create a Docusign Context record"
+       (ok (create-docusign-context docusign-context)))))
